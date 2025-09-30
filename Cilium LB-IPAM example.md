@@ -143,7 +143,7 @@ kubectl get svc hello-world -n default
 Expected output:
 
 ```
-NAME          TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)        AGE
+NAME               TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)        AGE
 hello-kubernetes   LoadBalancer   10.96.45.123    192.168.123.200   80:31234/TCP   10s
 ```
 
