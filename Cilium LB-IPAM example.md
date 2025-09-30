@@ -3,16 +3,12 @@
 
 In this example, we will set up a L2 advertisement with Cilium LB-IPAM connectend to a pfSense firewall for outside access.
 
-When using Cilium LB-IPAM in combination with a pfSense firewall, Cilium assigns external IPs from a predefined pool to Kubernetes LoadBalancer services. The cluster nodes then announce those IPs on the local network (via ARP/NDP), making them reachable as if they were real hosts. pfSense can simply forward traffic from the public IP to the Cilium-assigned service IP, removing the need for per-node NodePort rules and providing a clean, cloud-like load balancer experience on bare metal.
+When using Cilium LB-IPAM in combination with a pfSense firewall, Cilium assigns external IPs from a predefined pool to Kubernetes LoadBalancer services. The cluster nodes then announce those IPs on the local network (via ARP/NDP), making them reachable as if they were real hosts. pfSense can simply forward traffic from the public IP to the Cilium-assigned service IP, removing the need for per-node NodePort rules and providing a clean load balancer.
 
 ## Exposing Services with Cilium LB-IPAM and pfSense
 
-When using **Cilium LB-IPAM** in combination with a **pfSense firewall**, Cilium assigns external IPs from a predefined pool to Kubernetes `LoadBalancer` services. The cluster nodes then announce those IPs on the local network (via ARP/NDP), making them reachable as if they were real hosts. pfSense can simply forward traffic from the public IP to the Cilium-assigned service IP, removing the need for per-node NodePort rules and providing a cloud-like load balancer experience on bare metal.
+When using **Cilium LB-IPAM** in combination with a **pfSense firewall**, Cilium assigns external IPs from a predefined pool to Kubernetes `LoadBalancer` services. The cluster nodes then announce those IPs on the local network (via ARP/NDP), making them reachable as if they were real hosts. pfSense can simply forward traffic from the public IP to the Cilium-assigned service IP, removing the need for per-node NodePort rules and providing load balancing.
 
-
-## Exposing Services with Cilium LB-IPAM and pfSense
-
-When using **Cilium LB-IPAM** in combination with a **pfSense firewall**, Cilium assigns external IPs from a predefined pool to Kubernetes `LoadBalancer` services. The cluster nodes then announce those IPs on the local network (via ARP/NDP), making them reachable as if they were real hosts. pfSense can simply forward traffic from the public IP to the Cilium-assigned service IP, removing the need for per-node NodePort rules and providing a cloud-like load balancer experience on bare metal.
 
 ### Traffic Flow Diagram
 
@@ -148,7 +144,7 @@ Expected output:
 
 ```
 NAME          TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)        AGE
-hello-world   LoadBalancer   10.96.45.123    192.168.123.200   80:31234/TCP   10s
+hello-kubernetes   LoadBalancer   10.96.45.123    192.168.123.200   80:31234/TCP   10s
 ```
 
 - **EXTERNAL-IP** should come from your pool (e.g., `192.168.123.200`).  
