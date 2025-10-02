@@ -14,7 +14,7 @@ When using **Cilium LB-IPAM** in combination with a **pfSense firewall**, Cilium
 
 ```mermaid
 flowchart LR
-    Internet -->|TCP/80| pfSense[pfSense Firewall]
+    Internet -->|TCP/80| Firewall[irewall]
     pfSense -->|Forward to 192.168.123.200| CiliumLB["LoadBalancer IP (192.168.123.200)"]
     
     subgraph Pods
