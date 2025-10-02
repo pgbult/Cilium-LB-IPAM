@@ -31,7 +31,7 @@ flowchart LR
 
 ```
 
-## Cluster and pfSense setup
+## Cluster and firewall setup
 If the installation has not yet been done, install the cluster and firewall according to the following manual: [Installatiehandleiding](https://github.com/previder/kubernetes-examples/tree/main/docs)
 
 ---
