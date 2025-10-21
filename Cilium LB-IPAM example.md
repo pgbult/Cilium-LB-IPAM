@@ -139,7 +139,7 @@ kubectl apply -f hello-kubernetes-service.yaml
 ## 🔍 Verify
 
 ```bash
-kubectl get svc hello-world -n default
+kubectl get svc hello-kubernetes -n default
 ```
 
 Expected output:
