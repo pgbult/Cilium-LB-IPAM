@@ -189,7 +189,3 @@ hello-kubernetes   LoadBalancer   10.96.45.123    192.168.123.200   80:31234/TCP
 - Provides a true LoadBalancer experience on a Vanilla Kubernetes Deployment.  
 
 
-
-
-
-
