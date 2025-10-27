@@ -35,10 +35,29 @@ flowchart LR
 If the installation has not yet been done, install the cluster and firewall according to the following manual: [Installatiehandleiding](https://github.com/previder/kubernetes-examples/tree/main/docs)
 
 ---
+## 1. Enable Cilium L2 Announcements
 
-## 1. LoadBalancer IP Pool (CiliumLoadBalancerIPPool)
+First, make sure that **Cilium L2Announcements** is supported from the configuration files.  
+By default, this feature is **not enabled**. You can enable it by patching the ConfigMap as follows:
+```bash
+kubectl patch configmap cilium-config -n kube-system \
+  --type merge \
+  -p '{"data":{"enable-l2-announcements":"true"}}'
+```
 
-First define the IP range that Cilium can use for assigning LoadBalancer services. This must be in the same range that de firewall DHCP server uses, but the adresses cannot be part of the DHCP pool that is configured.
+Then restart Cilium to activate the change:
+```bash
+kubectl rollout restart ds/cilium -n kube-system
+```
+
+Finally, verify that the EnableL2Announcements variable is set to "true":
+```bash
+kubectl -n kube-system exec ds/cilium -- cilium-dbg config --all | grep EnableL2Announcements
+```
+
+## 2. LoadBalancer IP Pool (CiliumLoadBalancerIPPool)
+
+Define the IP range that Cilium can use for assigning LoadBalancer services. This must be in the same range that de firewall DHCP server uses, but the adresses cannot be part of the DHCP pool that is configured.
 
 ```yaml
 apiVersion: cilium.io/v2alpha1
@@ -55,7 +74,7 @@ spec:
 
 ---
 
-## 2. L2 Announcement Policy
+## 3. L2 Announcement Policy
 
 ```yaml
 apiVersion: cilium.io/v2alpha1
@@ -65,13 +84,21 @@ metadata:
 spec:
   loadBalancerIPs: true
   externalIPs: true
+  serviceSelector:
+    matchLabels:
+       advertise: "true"
+   nodeSelector:
+     matchExpressions:
+       - key: node-role.kubernetes.io/control-plane
+         operator: DoesNotExist
+
 ```
 
 👉 Ensures cluster nodes respond to ARP/NDP requests for assigned LoadBalancer IPs, so pfSense and your network can reach them.
 
 ---
 
-## 3. Hello Kubernetes Deployment
+## 4. Hello Kubernetes Deployment
 For testing deploy a simple Hello Kubernetes deployment based on Paul Bouwer's  ([test deployment](https://github.com/paulbouwer/hello-kubernetes))
 
 ```yaml
@@ -104,7 +131,7 @@ spec:
 
 ---
 
-## 4. Hello Kubernetes Service (LoadBalancer)
+## 5. Hello Kubernetes Service (LoadBalancer)
 
 ```yaml
 apiVersion: v1
