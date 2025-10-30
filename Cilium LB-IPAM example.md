@@ -40,14 +40,14 @@ If the installation has not yet been done, install the cluster and firewall acco
 First, make sure that **Cilium L2Announcements** is supported from the configuration files.  
 By default, this feature is **not enabled**. You can enable it by patching the ConfigMap as follows:
 ```bash
-kubectl patch configmap cilium-config -n kube-system \
+kubectl -n kube-system patch configmap cilium-config \
   --type merge \
   -p '{"data":{"enable-l2-announcements":"true"}}'
 ```
 
 Then restart Cilium to activate the change:
 ```bash
-kubectl rollout restart ds/cilium -n kube-system
+kubectl -n kube-system rollout restart ds/cilium
 ```
 
 Finally, verify that the EnableL2Announcements variable is set to "true":
@@ -166,7 +166,7 @@ kubectl apply -f hello-kubernetes-service.yaml
 ## 🔍 Verify
 
 ```bash
-kubectl get svc hello-kubernetes -n default
+kubectl get svc hello-kubernetes
 ```
 
 Expected output:
